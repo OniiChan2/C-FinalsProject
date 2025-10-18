@@ -205,11 +205,11 @@ bool adminPanel() {
 	while (true) {
 		int option;
 
-		cout << "Administrator Panel Options:\n";
+		cout << "\nAdministrator Panel Options:\n";
 		cout << "1 - See All Members\n";
 		cout << "2 - Remove a Member\n";
 		cout << "3 - Update a Member's Details\n";
-		cout << "4 - Log out as Admin\n";
+		cout << "4 - Log out as Admin & Exit\n";
 		cout << "Enter Option: ";
 		cin >> option;
 		switch (option) {
@@ -224,6 +224,7 @@ bool adminPanel() {
 			break;
 		case 4 :
 			cout << "Logging Out Now..\n";
+			cout << "Thank you for using! Exiting Now.\n";
 			return false;
 			break;
 		default:
@@ -268,19 +269,24 @@ void sysAdminLogin() {
 	const int max_login_attempt = 3;
 
 	while (count < max_login_attempt) {
-		cout << "Logging You in As a System Administrator..\n";
+		cout << "\nLogging You in As a System Administrator..\n";
 		cout << "Enter Username: ";
 		cin >> username;
 		cout << "Enter Password: ";
 		cin >> password;
 		if (adminLogin(username, password)) {
 			cout << "Logging you In now! \n";
-			adminPanel();
+			bool stayLoggedIn = adminPanel();
+			if (!stayLoggedIn) {
+				return;
+			}
+
 		}
-		else {
+		else if (!adminLogin(username, password)) {
 			count++;
 			cout << "You are now on Attempt #" << count << ".\n";
 		}
+	
 	}
 	string output = (count < max_login_attempt) ? "Thank you for using, Logging out now.." : "TOO MANY FAILED LOGIN ATTEMPTS GOING BACK TO MAIN MENU";
 	cout << output << "\n";
@@ -308,10 +314,10 @@ int main() {
 		default:
 			cout << "The Option you have give is an invalid input.\n";
 		}
-		cout << "Would you like to keep using the program? (Y or N): ";
+		cout << "Would you like to keep using the application? (Y or N): ";
 		cin >> select;
 	} while (select == 'Y' || select == 'y');
-
+	cout << "Thank you for using! Exiting now.\n";
 	return 0;
 
 }
